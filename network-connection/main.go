@@ -3,13 +3,21 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
+	"os"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"log"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	rpcEndpoint := "https://eth-mainnet.g.alchemy.com/v2/Znfzv2rit7VpF-RL14RL1Jxafmam95a3"
+	// Load the .env file
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
+
+	rpcEndpoint := os.Getenv("RPC_ENDPOINT_ETH_SEPOLIA")
 
 	client, err := ethclient.Dial(rpcEndpoint)
 
@@ -21,5 +29,5 @@ func main() {
 
 	fmt.Println(client.BlockNumber(context.Background()))
 
-	fmt.Println(client.BalanceAt(context.Background(), common.HexToAddress("0x7baBf95621f22bEf2DB67E500D022Ca110722FaD"), nil))
+	fmt.Println(client.BalanceAt(context.Background(), common.HexToAddress("0x0309004C4fB9943797f5C530abd8cddE564A9fD4"), nil))
 }
